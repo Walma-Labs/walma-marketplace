@@ -1,0 +1,11 @@
+{
+  "name": "walma-gateway",
+  "displayName": "Walma AI Gateway",
+  "version": "0.1.0",
+  "description": "Reports the org-qualified git remote of each Claude Code session to your organization's AI gateway, for reliable repo attribution and policy. Fire-and-forget; never blocks or denies a tool call.",
+  "author": { "name": "Walma Labs" },
+  "homepage": "https://walma.ai",
+  "license": "UNLICENSED",
+  "keywords": ["gateway", "governance", "telemetry"],
+  "hooks": "./hooks/hooks.json"
+}
