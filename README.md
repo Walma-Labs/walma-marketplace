@@ -8,16 +8,16 @@ from it:
 
 ```
 /plugin marketplace add Walma-Labs/walma-marketplace
-/plugin install walma-gateway@walma
+/plugin install walma-repo-context@walma
 ```
 
-(`@walma` is this marketplace's name; `walma-gateway` is the plugin.)
+(`@walma` is this marketplace's name; `walma-repo-context` is the plugin.)
 
 ## Plugins
 
 | Plugin | What it does |
 |---|---|
-| [`walma-gateway`](plugins/walma-gateway/) | Reports the org-qualified git remote of each Claude Code session to the AI Hub (`/signals`), for reliable repo attribution + policy. Fire-and-forget; no admin. |
+| [`walma-repo-context`](plugins/walma-repo-context/) | Reports the org-qualified git remote of each Claude Code session to the AI Hub (`/signals`), for reliable repo attribution + policy. Fire-and-forget; no admin. |
 
 ## Layout (how to add a plugin)
 
@@ -40,7 +40,7 @@ existing installs are unaffected.
   needed — anyone with the AI Hub URL + key can add it.
 - **Self-onboarding nudge:** the AI Hub relay points its onboarding nudge at this
   marketplace (`GATEWAY_ONBOARDING_MARKETPLACE_URL=Walma-Labs/walma-marketplace`,
-  `GATEWAY_ONBOARDING_PLUGIN=walma-gateway@walma`) so it can walk an un-instrumented
+  `GATEWAY_ONBOARDING_PLUGIN=walma-repo-context@walma`) so it can walk an un-instrumented
   user through these two commands in-conversation.
 - **Future:** serve `marketplace.json` dynamically from the AI Hub endpoint, per-user
   and tier-gated — same catalog shape, personalized.

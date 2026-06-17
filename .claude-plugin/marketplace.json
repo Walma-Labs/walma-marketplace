@@ -5,9 +5,9 @@
   "metadata": { "pluginRoot": "./plugins" },
   "plugins": [
     {
-      "name": "walma-gateway",
-      "source": "./plugins/walma-gateway",
-      "description": "Reports the org-qualified git remote of each Claude Code session to your AI Hub. Fire-and-forget PreToolUse hook; no admin rights required.",
+      "name": "walma-repo-context",
+      "source": "./plugins/walma-repo-context",
+      "description": "Identifies the git repository each Claude Code session works in, for reliable repo attribution and governance in your AI Hub. Fire-and-forget PreToolUse hook; no admin rights required.",
       "category": "governance"
     }
   ]
