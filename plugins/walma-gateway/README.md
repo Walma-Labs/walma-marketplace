@@ -25,7 +25,7 @@ On each tool call, to `POST <gateway>/signals` with header `x-api-key: <subscrip
   "session_id": "<claude session id>",
   "ts": "2026-06-12T10:03:48.262Z",
   "hook_version": "0.1.0",
-  "payload": { "remote_url": "https://github.com/Walma-Labs/noda.git", "repo": "Walma-Labs/noda", "branch": "main" }
+  "payload": { "remote_url": "https://github.com/your-org/your-repo.git", "repo": "your-org/your-repo", "branch": "main" }
 }
 ```
 

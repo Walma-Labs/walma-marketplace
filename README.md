@@ -40,9 +40,8 @@ existing installs are unaffected.
   marketplace (`GATEWAY_ONBOARDING_MARKETPLACE_URL=Walma-Labs/walma-marketplace`,
   `GATEWAY_ONBOARDING_PLUGIN=walma-gateway@walma`) so it can walk an un-instrumented
   user through these two commands in-conversation.
-- **Future (Layer 1 of the gateway-skills-marketplace idea):** serve `marketplace.json`
-  dynamically from the gateway endpoint, per-user and tier-gated — same catalog shape,
-  personalized. See `noda/.ai/ideas/gateway-skills-marketplace.md`.
+- **Future:** serve `marketplace.json` dynamically from the gateway endpoint, per-user
+  and tier-gated — same catalog shape, personalized.
 
 ## Validate
 

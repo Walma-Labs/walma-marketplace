@@ -58,7 +58,7 @@ async function main() {
 }
 
 // Derive the signals endpoint from ANTHROPIC_BASE_URL (e.g.
-// https://hub.amber.walma.ai/anthropic -> https://hub.amber.walma.ai/anthropic/signals),
+// https://hub.<env>.walma.ai/anthropic -> https://hub.<env>.walma.ai/anthropic/signals),
 // unless WALMA_SIGNALS_URL is set explicitly.
 function resolveSignalsUrl() {
   if (process.env.WALMA_SIGNALS_URL) return process.env.WALMA_SIGNALS_URL;

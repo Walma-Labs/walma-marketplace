@@ -47,7 +47,7 @@ to do.
 ## What to expect / FAQ
 
 - **Is anything sensitive sent?** No. Only the git remote of the repo you're in (e.g.
-  `Walma-Labs/noda`) plus the branch — **never** file contents, your code, command
+  `your-org/your-repo`) plus the branch — **never** file contents, your code, command
   output, or anything you type. Outside a git repo, it sends nothing.
 - **The wording of the setup prompt varies** — Claude phrases it itself; that's normal.
   It asks at most once in a while, not every message.
