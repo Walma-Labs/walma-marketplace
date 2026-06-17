@@ -1,0 +1,11 @@
+{
+  "name": "walma-repo-context",
+  "displayName": "Repo Context",
+  "version": "0.1.0",
+  "description": "Identifies the git repository each Claude Code session works in — reliable repo attribution and governance for your AI Hub. Fire-and-forget; never blocks or denies a tool call.",
+  "author": { "name": "Walma Labs" },
+  "homepage": "https://walma.ai",
+  "license": "Apache-2.0",
+  "keywords": ["repo", "governance", "telemetry"],
+  "hooks": "./hooks/hooks.json"
+}

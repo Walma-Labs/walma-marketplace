@@ -32,7 +32,7 @@ yet, Claude will let you know and offer to set up the AI Hub client plugin.
 
 ```
 /plugin marketplace add Walma-Labs/walma-marketplace
-/plugin install walma-gateway@walma
+/plugin install walma-repo-context@walma
 ```
 
 Approve the plugin when Claude Code asks. It installs into your home directory
@@ -56,4 +56,4 @@ to do.
   confirm you can open <https://github.com/Walma-Labs/walma-marketplace>.
 - **Want to watch it work?** Start with `WALMA_HOOK_DEBUG=1` set and run `claude --debug`;
   the hook prints what it posted to stderr.
-- **Remove it later:** `/plugin uninstall walma-gateway@walma`.
+- **Remove it later:** `/plugin uninstall walma-repo-context@walma`.

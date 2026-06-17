@@ -1,4 +1,4 @@
-# Walma AI Hub — client plugin
+# Repo Context — Walma AI Hub client plugin
 
 A Claude Code plugin that registers your workspace with your organization's AI
 Hub. It ships one **`PreToolUse` hook** that reads the org-qualified git remote
@@ -36,7 +36,7 @@ are a new `type`, not a new endpoint or a new plugin.
 
 ```
 /plugin marketplace add Walma-Labs/walma-marketplace
-/plugin install walma-gateway@walma
+/plugin install walma-repo-context@walma
 ```
 
 The hook reads its configuration from the environment the CLI already has:
@@ -58,12 +58,12 @@ This plugin lives in the [`walma` marketplace](../../) (repo root), one plugin a
 growing catalog. See that README for how the marketplace is added and served. In short:
 
 - **For anyone:** `/plugin marketplace add Walma-Labs/walma-marketplace` then
-  `/plugin install walma-gateway@walma`. The repo is public, so no GitHub access grant is
+  `/plugin install walma-repo-context@walma`. The repo is public, so no GitHub access grant is
   needed. Pin a release with `@<tag>` if you want.
 - **Same-machine test:** `/plugin marketplace add <path-to-the-marketplace-root>`.
 - **Self-onboarding nudge:** the relay points its nudge here via
   `GATEWAY_ONBOARDING_MARKETPLACE_URL=Walma-Labs/walma-marketplace` +
-  `GATEWAY_ONBOARDING_PLUGIN=walma-gateway@walma`, walking an un-instrumented user
+  `GATEWAY_ONBOARDING_PLUGIN=walma-repo-context@walma`, walking an un-instrumented user
   through those two commands in-conversation.
 
 ## Files

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Walma AI Hub client — PreToolUse signal hook (cross-platform: macOS, Linux,
+// Repo Context (Walma AI Hub client) — PreToolUse signal hook (cross-platform: macOS, Linux,
 // Windows). Reads the hook's stdin payload, derives the ORG-QUALIFIED git remote
 // for the session's working directory, and POSTs a generic /signals envelope to the
 // AI Hub, keyed by the same subscription key the CLI already uses to reach it.
