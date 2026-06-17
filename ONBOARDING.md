@@ -7,9 +7,9 @@ team gets reliable repo attribution. ~2 minutes, **no admin rights**.
 
 - **Claude Code**, a recent version (`claude --version`).
 - **Node.js + git** on your PATH (you already have these if you code).
-- **Read access to `Walma-Labs/walma-marketplace`** on GitHub (the plugin lives here).
-  If `/plugin marketplace add` fails with an auth error, ask Martin for access.
 - Your **gateway base URL + API key** — Martin will send you both.
+
+The marketplace is public, so there's nothing to request access to.
 
 ## 1. Point Claude Code at the gateway
 
@@ -51,8 +51,9 @@ to do.
   output, or anything you type. Outside a git repo, it sends nothing.
 - **The wording of the setup prompt varies** — Claude phrases it itself; that's normal.
   It asks at most once in a while, not every message.
-- **`/plugin marketplace add` fails?** Almost always GitHub access — confirm you can
-  open <https://github.com/Walma-Labs/walma-marketplace>. If not, ask Martin to add you.
+- **`/plugin marketplace add` fails?** The marketplace is public, so this is usually a
+  stale Claude Code or a network/proxy issue — update with `claude --version`, retry, and
+  confirm you can open <https://github.com/Walma-Labs/walma-marketplace>.
 - **Want to watch it work?** Start with `WALMA_HOOK_DEBUG=1` set and run `claude --debug`;
   the hook prints what it posted to stderr.
 - **Remove it later:** `/plugin uninstall walma-gateway@walma`.

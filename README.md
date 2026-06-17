@@ -1,5 +1,7 @@
 # Walma marketplace
 
+By [Walma](https://walma.ai).
+
 The Walma AI gateway plugin marketplace — a catalog of Claude Code plugins (and,
 later, skills) distributed to gateway users. Add it once, then install any plugin
 from it:
@@ -34,8 +36,8 @@ existing installs are unaffected.
 ## How it's distributed
 
 - **Direct (today):** users `/plugin marketplace add Walma-Labs/walma-marketplace`
-  (GitHub `owner/repo` shorthand; Claude Code uses the user's git credentials, so a
-  private Walma repo works for Walma devs).
+  (GitHub `owner/repo` shorthand). The repo is public, so no GitHub access grant is
+  needed — anyone with the gateway URL + key can add it.
 - **Self-onboarding nudge:** the gateway relay points its onboarding nudge at this
   marketplace (`GATEWAY_ONBOARDING_MARKETPLACE_URL=Walma-Labs/walma-marketplace`,
   `GATEWAY_ONBOARDING_PLUGIN=walma-gateway@walma`) so it can walk an un-instrumented

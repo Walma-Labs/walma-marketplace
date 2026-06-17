@@ -57,9 +57,9 @@ it's safe to enable everywhere; it only acts when the gateway env is present.
 This plugin lives in the [`walma` marketplace](../../) (repo root), one plugin among a
 growing catalog. See that README for how the marketplace is added and served. In short:
 
-- **For a colleague:** `/plugin marketplace add Walma-Labs/walma-marketplace` then
-  `/plugin install walma-gateway@walma` (Claude Code uses the user's git credentials, so
-  a private Walma repo works for Walma devs). Pin a release with `@<tag>` if you want.
+- **For anyone:** `/plugin marketplace add Walma-Labs/walma-marketplace` then
+  `/plugin install walma-gateway@walma`. The repo is public, so no GitHub access grant is
+  needed. Pin a release with `@<tag>` if you want.
 - **Same-machine test:** `/plugin marketplace add <path-to-the-marketplace-root>`.
 - **Self-onboarding nudge:** the relay points its nudge here via
   `GATEWAY_ONBOARDING_MARKETPLACE_URL=Walma-Labs/walma-marketplace` +
