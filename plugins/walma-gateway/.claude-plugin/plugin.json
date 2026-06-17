@@ -5,7 +5,7 @@
   "description": "Reports the org-qualified git remote of each Claude Code session to your organization's AI Hub, for reliable repo attribution and policy. Fire-and-forget; never blocks or denies a tool call.",
   "author": { "name": "Walma Labs" },
   "homepage": "https://walma.ai",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "keywords": ["gateway", "governance", "telemetry"],
   "hooks": "./hooks/hooks.json"
 }

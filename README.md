@@ -50,3 +50,7 @@ existing installs are unaffected.
 ```
 claude plugin validate .
 ```
+
+## License
+
+[Apache-2.0](LICENSE) © [Walma Labs](https://walma.ai). See [NOTICE](NOTICE).
