@@ -1,13 +1,13 @@
 {
   "name": "walma",
   "owner": { "name": "Walma Labs", "url": "https://walma.ai" },
-  "description": "Walma AI gateway plugins & skills. Install plugins to register your workspace with your organization's gateway and to use platform-integrated tooling.",
+  "description": "Walma AI Hub plugins & skills. Install plugins to register your workspace with your organization's AI Hub and to use platform-integrated tooling.",
   "metadata": { "pluginRoot": "./plugins" },
   "plugins": [
     {
       "name": "walma-gateway",
       "source": "./plugins/walma-gateway",
-      "description": "Reports the org-qualified git remote of each Claude Code session to your gateway. Fire-and-forget PreToolUse hook; no admin rights required.",
+      "description": "Reports the org-qualified git remote of each Claude Code session to your AI Hub. Fire-and-forget PreToolUse hook; no admin rights required.",
       "category": "governance"
     }
   ]

@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-// Walma AI gateway client — PreToolUse signal hook (cross-platform: macOS, Linux,
+// Walma AI Hub client — PreToolUse signal hook (cross-platform: macOS, Linux,
 // Windows). Reads the hook's stdin payload, derives the ORG-QUALIFIED git remote
 // for the session's working directory, and POSTs a generic /signals envelope to the
-// gateway, keyed by the same subscription key the CLI already uses to reach it.
+// AI Hub, keyed by the same subscription key the CLI already uses to reach it.
 //
 // Registered (hooks/hooks.json) with `async: true`, so Claude Code runs it WITHOUT
 // blocking the tool call — fire-and-forget. It also ALWAYS exits 0 and never emits a
 // permission decision, so it can never block or deny a tool. A short network timeout
-// keeps it from lingering if the gateway is slow.
+// keeps it from lingering if the AI Hub is slow.
 //
 // Config (read from the environment the CLI already has set; no local files needed):
-//   ANTHROPIC_BASE_URL  -> the gateway base; /signals is derived from it
+//   ANTHROPIC_BASE_URL  -> the AI Hub base; /signals is derived from it
 //   ANTHROPIC_API_KEY   -> the subscription key (sent as x-api-key)
 //   WALMA_SIGNALS_URL   -> optional explicit override for the signals endpoint
 //   WALMA_GATEWAY_KEY   -> optional explicit override for the key (else ANTHROPIC_API_KEY)
@@ -96,7 +96,7 @@ async function post(url, apiKey, body) {
       signal: ac.signal,
     });
   } catch {
-    // fire-and-forget: a slow/unreachable gateway must never surface to the user
+    // fire-and-forget: a slow/unreachable AI Hub must never surface to the user
   } finally {
     clearTimeout(timer);
   }

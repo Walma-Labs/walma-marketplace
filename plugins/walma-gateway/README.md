@@ -1,10 +1,10 @@
-# Walma AI Gateway — client plugin
+# Walma AI Hub — client plugin
 
 A Claude Code plugin that registers your workspace with your organization's AI
-gateway. It ships one **`PreToolUse` hook** that reads the org-qualified git remote
-of the current session and reports it to the gateway's `/signals` endpoint, keyed by
-the same subscription key the CLI already uses. This gives gateway admins reliable
-repo attribution and policy — something the gateway can't get from the request stream
+Hub. It ships one **`PreToolUse` hook** that reads the org-qualified git remote
+of the current session and reports it to the AI Hub's `/signals` endpoint, keyed by
+the same subscription key the CLI already uses. This gives AI Hub admins reliable
+repo attribution and policy — something the AI Hub can't get from the request stream
 alone (it only sees the working-directory *name*, not the org-qualified remote).
 
 - **Fire-and-forget.** The hook is registered `async`, so Claude Code never waits on
@@ -17,7 +17,7 @@ alone (it only sees the working-directory *name*, not the org-qualified remote).
 
 ## What it sends
 
-On each tool call, to `POST <gateway>/signals` with header `x-api-key: <subscription key>`:
+On each tool call, to `POST <ai-hub>/signals` with header `x-api-key: <subscription key>`:
 
 ```json
 {
@@ -43,14 +43,14 @@ The hook reads its configuration from the environment the CLI already has:
 
 | Variable | Purpose | Default |
 |---|---|---|
-| `ANTHROPIC_BASE_URL` | gateway base; `/signals` is derived from it | — (required unless `WALMA_SIGNALS_URL` set) |
+| `ANTHROPIC_BASE_URL` | AI Hub base; `/signals` is derived from it | — (required unless `WALMA_SIGNALS_URL` set) |
 | `ANTHROPIC_API_KEY` | subscription key, sent as `x-api-key` | — (required unless `WALMA_GATEWAY_KEY` set) |
 | `WALMA_SIGNALS_URL` | explicit signals endpoint override | derived from `ANTHROPIC_BASE_URL` |
 | `WALMA_GATEWAY_KEY` | explicit key override | `ANTHROPIC_API_KEY` |
 | `WALMA_HOOK_DEBUG=1` | log what the hook did to stderr (`claude --debug`) | off |
 
 If neither a signals URL nor a key is resolvable, the hook silently does nothing — so
-it's safe to enable everywhere; it only acts when the gateway env is present.
+it's safe to enable everywhere; it only acts when the AI Hub env is present.
 
 ## Distribution
 
