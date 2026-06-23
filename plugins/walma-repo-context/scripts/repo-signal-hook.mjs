@@ -18,7 +18,7 @@
 
 import { execFile } from "node:child_process";
 
-const HOOK_VERSION = "0.1.0";
+const HOOK_VERSION = "0.2.0";
 const DEBUG = process.env.WALMA_HOOK_DEBUG === "1";
 const log = (...a) => { if (DEBUG) console.error("[walma-hook]", ...a); };
 
@@ -29,25 +29,38 @@ async function main() {
     const payload = await readStdinJson();
     const cwd = payload?.cwd;
     const sessionId = payload?.session_id;
-    if (!cwd) return done(0);
-
-    // Ground truth lives in .git/config — read it fresh every tool call so a
-    // mid-session cd into another repo is caught on the very next call.
-    const remote = await git(cwd, ["remote", "get-url", "origin"]);
-    if (!remote) { log("no git origin for", cwd); return done(0); } // not a repo / no origin → silent
-    const branch = await git(cwd, ["rev-parse", "--abbrev-ref", "HEAD"]);
 
     const signalsUrl = resolveSignalsUrl();
     const apiKey = process.env.WALMA_GATEWAY_KEY || process.env.ANTHROPIC_API_KEY;
     if (!signalsUrl || !apiKey) { log("not configured (signalsUrl/apiKey missing)"); return done(0); }
 
-    const envelope = {
-      type: "repo",
-      session_id: sessionId,
-      ts: new Date().toISOString(),
-      hook_version: HOOK_VERSION,
-      payload: { remote_url: remote, repo: repoSlug(remote), branch: branch || null },
-    };
+    // Prefer the repo signal (the session's git remote, read fresh every tool call
+    // so a mid-session cd into another repo is caught on the next call). If there's
+    // no git origin (no cwd, or a non-repo dir like C:\), send a lightweight
+    // HEARTBEAT instead — so the AI Hub can tell "plugin installed & running" from
+    // "not installed", independent of whether the user happens to be in a git repo.
+    // Both are keyed by the same gateway key, so either marks the key as wired.
+    let envelope;
+    const remote = cwd ? await git(cwd, ["remote", "get-url", "origin"]) : null;
+    if (remote) {
+      const branch = await git(cwd, ["rev-parse", "--abbrev-ref", "HEAD"]);
+      envelope = {
+        type: "repo",
+        session_id: sessionId,
+        ts: new Date().toISOString(),
+        hook_version: HOOK_VERSION,
+        payload: { remote_url: remote, repo: repoSlug(remote), branch: branch || null },
+      };
+    } else {
+      log("no git origin — sending heartbeat");
+      envelope = {
+        type: "heartbeat",
+        session_id: sessionId,
+        ts: new Date().toISOString(),
+        hook_version: HOOK_VERSION,
+        payload: {},
+      };
+    }
 
     await post(signalsUrl, apiKey, envelope);
     log("posted", JSON.stringify(envelope), "->", signalsUrl);
