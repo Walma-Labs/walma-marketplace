@@ -29,6 +29,14 @@ On each tool call, to `POST <ai-hub>/signals` with header `x-api-key: <subscript
 }
 ```
 
+When the session isn't in a git repo (e.g. Claude Code launched from a non-repo
+directory), it sends a lightweight **heartbeat** instead — so the AI Hub can tell
+"plugin installed & running" from "not installed", independent of repo work:
+
+```json
+{ "type": "heartbeat", "session_id": "<claude session id>", "ts": "…", "hook_version": "0.2.0", "payload": {} }
+```
+
 The envelope is deliberately generic (`type` + opaque `payload`): future signal kinds
 are a new `type`, not a new endpoint or a new plugin.
 
