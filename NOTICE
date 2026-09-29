@@ -3,3 +3,23 @@ Copyright 2026 Walma Labs
 
 This product includes software developed at Walma Labs (https://walma.ai).
 Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+--------------------------------------------------------------------------------
+Vendored third-party plugins
+--------------------------------------------------------------------------------
+
+This repository vendors plugin content authored by third parties. Each vendored
+plugin carries a .upstream.json recording its origin, licence and the upstream
+commit it was taken from, and .github/workflows/sync-vendored-plugins.yml opens a
+pull request when upstream moves, so a copy never drifts silently.
+
+Content is vendored rather than referenced because Claude Desktop on third-party
+inference only fetches marketplace plugins whose source is local to the
+marketplace repository; a cross-repository source is listed to users but never
+downloaded.
+
+plugins/adobe-for-creativity
+  Copyright Adobe
+  From https://github.com/adobe/skills, plugins/creative-cloud/adobe-for-creativity
+  Licensed under the Apache License, Version 2.0
+  Unmodified apart from the addition of .upstream.json

@@ -1,0 +1,113 @@
+# Keep vendored third-party plugins from going stale.
+#
+# We vendor some plugin content rather than referencing it, because Claude Desktop
+# on third-party inference only fetches marketplace plugins whose `source` is local
+# to the marketplace repository. A cross-repository source is listed to users and
+# never downloaded — which is how Adobe's plugin looked "missing" from a pushed
+# marketplace while working fine when a user added the same marketplace themselves
+# (roadmap#509).
+#
+# A copy with no upstream link rots quietly. This job does the copying; a human
+# does the deciding. It re-extracts each vendored plugin from its upstream ref and
+# opens one pull request per plugin that moved. Nothing lands unreviewed: trust is
+# granted per author, and a diff is where you keep granting it.
+#
+# Provenance lives in plugins/<name>/.upstream.json:
+#   { repo, path, ref, syncedSha, license, author, why }
+
+name: Sync vendored plugins
+
+on:
+  schedule:
+    # Mondays 06:17 UTC. Off the hour deliberately — scheduled jobs on the hour
+    # queue behind everyone else's and can be delayed a long way.
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync each vendored plugin
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git config user.name 'walma-bot'
+          git config user.email 'bot@walma.ai'
+          shopt -s nullglob
+
+          for meta in plugins/*/.upstream.json; do
+            dir="$(dirname "$meta")"
+            name="$(basename "$dir")"
+            repo="$(jq -r .repo "$meta")"
+            path="$(jq -r .path "$meta")"
+            ref="$(jq -r .ref "$meta")"
+            have="$(jq -r .syncedSha "$meta")"
+
+            work="$(mktemp -d)"
+            if ! git clone --quiet --depth 1 --branch "$ref" "$repo" "$work/src"; then
+              echo "::warning::could not clone $repo for $name"
+              continue
+            fi
+            upstream="$(git -C "$work/src" rev-parse HEAD)"
+
+            if [ "$upstream" = "$have" ]; then
+              echo "$name: up to date at ${upstream:0:8}"
+              continue
+            fi
+            echo "$name: ${have:0:8} -> ${upstream:0:8}"
+
+            branch="sync/$name-${upstream:0:8}"
+            if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+              echo "$name: $branch is already open, leaving it alone"
+              continue
+            fi
+
+            # git archive, not a working-tree copy: a large upstream's checkout can
+            # fail on individual paths while its tree is perfectly readable, and we
+            # want one subdirectory rather than the whole repository.
+            mkdir -p "$work/stage"
+            git -C "$work/src" archive HEAD "$path" | tar -x -C "$work/stage"
+
+            git checkout -q -b "$branch"
+            cp "$meta" "$work/keep.json"
+            rm -rf "$dir"
+            mkdir -p "$dir"
+            cp -r "$work/stage/$path/." "$dir/"
+            cp "$work/keep.json" "$meta"
+            jq --arg s "$upstream" '.syncedSha = $s' "$meta" > "$meta.tmp"
+            mv "$meta.tmp" "$meta"
+
+            if git diff --quiet; then
+              echo "$name: upstream moved but this subdirectory did not"
+              git checkout -q main
+              git branch -qD "$branch"
+              continue
+            fi
+
+            git add "$dir"
+            git commit -q -m "chore($name): sync vendored plugin to ${upstream:0:8}" -m "Upstream $repo moved from ${have:0:8} to ${upstream:0:8}. Review before merging: this is third-party content we redistribute, so do we still want this plugin, and do we still trust its author?"
+            git push -q origin "$branch"
+
+            # printf, not an inline multi-line string: a literal newline inside this
+            # block scalar would end the YAML block.
+            body="$work/body.md"
+            printf 'Automated sync of the vendored `%s` plugin.\n\n' "$name" > "$body"
+            printf '| | |\n|---|---|\n' >> "$body"
+            printf '| upstream | %s |\n' "$repo" >> "$body"
+            printf '| subdirectory | `%s` |\n' "$path" >> "$body"
+            printf '| tracked ref | `%s` |\n' "$ref" >> "$body"
+            printf '| was | `%s` |\n' "$have" >> "$body"
+            printf '| now | `%s` |\n\n' "$upstream" >> "$body"
+            printf 'Third-party content we redistribute. Two questions before merging: do we still want this plugin, and do we still trust its author? Scan the diff for anything that reaches the network, reads outside its own directory, or asks for credentials.\n' >> "$body"
+
+            gh pr create --title "Sync $name to ${upstream:0:8}" --body-file "$body" --base main --head "$branch" || echo "::warning::pr create failed for $name"
+            git checkout -q main
+          done
