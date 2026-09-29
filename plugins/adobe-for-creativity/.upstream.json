@@ -1,0 +1,10 @@
+{
+  "$comment": "Provenance for a VENDORED third-party plugin. Read by .github/workflows/sync-vendored-plugins.yml, which opens a PR when upstream moves. Do not edit by hand except to change what is tracked.",
+  "repo": "https://github.com/adobe/skills",
+  "path": "plugins/creative-cloud/adobe-for-creativity",
+  "ref": "main",
+  "syncedSha": "e68296b7aee46cbb60dea9a064e858fc23e08de3",
+  "license": "Apache-2.0",
+  "author": "Adobe",
+  "why": "Claude Desktop on 3P only fetches marketplace plugins whose source is local to the marketplace repository. Adobe's plugin is listed in anthropics/knowledge-work-plugins as a cross-repo git-subdir source, so an admin-configured marketplace lists it but never downloads it. Vendoring the content here makes the source local and therefore fetchable. See roadmap#509."
+}

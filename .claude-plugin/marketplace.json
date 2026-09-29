@@ -1,14 +1,28 @@
 {
   "name": "walma",
-  "owner": { "name": "Walma Labs", "url": "https://walma.ai" },
+  "owner": {
+    "name": "Walma Labs",
+    "url": "https://walma.ai"
+  },
   "description": "Walma AI Hub plugins & skills. Install plugins to register your workspace with your organization's AI Hub and to use platform-integrated tooling.",
-  "metadata": { "pluginRoot": "./plugins" },
+  "metadata": {
+    "pluginRoot": "./plugins"
+  },
   "plugins": [
     {
       "name": "walma-repo-context",
       "source": "./plugins/walma-repo-context",
       "description": "Identifies the git repository each Claude Code session works in, for reliable repo attribution and governance in your AI Hub. Fire-and-forget PreToolUse hook; no admin rights required.",
       "category": "governance"
+    },
+    {
+      "name": "adobe-for-creativity",
+      "source": "./plugins/adobe-for-creativity",
+      "description": "Adobe Creative Cloud tools for images, vectors, design and video: batch photo edits, resizing for different platforms, quick video cuts, portrait retouching, social variations and document conversion. Vendored from adobe/skills (Apache-2.0) because Claude Desktop on 3P does not fetch cross-repository plugin sources from an admin-configured marketplace.",
+      "category": "design",
+      "author": {
+        "name": "Adobe"
+      }
     }
   ]
 }
